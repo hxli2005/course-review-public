@@ -54,7 +54,7 @@
             <p class="course-teacher" title="{{ item.teachers }}"><strong>教师:</strong> {{ item.teachers }}</p>
             <p><strong>学期:</strong> {{ item.semesters }}</p>
             <p><strong>评论数量:</strong> {{ item.review_count }}</p> <!-- 显示评论数量 -->
-            <a href="{{ url_for('course.course_detail', course_id=item.course.id) }}" class="btn view-details-btn" target="_blank">查看详情</a>
+            <a href="{{ url_for('course.course_detail', course_id=item.course.id) }}" class="btn view-details-btn" >查看详情</a>
         </div>
         {% endfor %}
     </div>
