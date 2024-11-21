@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课程评价 - 首页</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="{{ url_for('main.index') }}" class="logo">课程评价</a>
+            <button class="menu-toggle" aria-label="Toggle navigation">
+                ☰
+            </button>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('main.index') }}">首页</a></li>
+                <li><a href="{{ url_for('course.list_courses') }}">课程</a></li>
+                <li><a href="{{ url_for('teacher.list_teachers') }}">教师</a></li>
+                <li><a href="{{ url_for('my.index') }}">我的</a></li>
+                <li><a href="{{ url_for('main.about') }}">关于</a></li>
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('auth.logout') }}" class="btn logout-btn">登出</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('auth.login') }}" class="btn login-btn">登录</a></li>
+                    <li><a href="{{ url_for('auth.register') }}" class="btn signup-btn">注册</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    
+
+    <!-- Flash messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+  <ul class="flashes">
+    {% for category, message in messages %}
+      <li class="alert alert-{{ category }}">
+        <span class="message">{{ message }}</span>
+        <button class="close-btn" aria-label="Close">&times;</button>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% endwith %}
+
+
+    <!-- 主横幅 -->
+    <section class="hero">
+        <div class="container">
+            <h1 class="hero-title">发现并评价你的课程</h1>
+            <p class="hero-subtitle">这是你寻找和评价课程与教师的可信平台。</p>
+            <a href="{{ url_for('course.list_courses') }}" class="btn hero-btn">探索课程</a>
+        </div>
+    </section>
+
+    <!-- 特色内容区 -->
+    <section class="features">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-item">
+                    <h3>获取更多信息</h3>
+                    <p>选择更适合自己的课程</p>
+                </div>
+                <div class="feature-item">
+                    <h3>AI赋能</h3>
+                    <p>查看ai总结的评论，节省你的时间</p>
+                </div>
+                <div class="feature-item">
+                    <h3>现代化页面</h3>
+                    <p>更方便快捷的浏览体验</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- 推荐内容区 -->
+<section class="popular">
+    <div class="container">
+        <h2>热门课程</h2>
+        <div class="cards-grid">
+            {% for course_info in popular_courses %}
+                <div class="course-card">
+                    <h3>{{ course_info.course_teacher.course.course_name }}</h3>
+                    <p>授课教师: {{ course_info.course_teacher.teacher.name }}</p>
+                    <p>平均评分: {{ course_info.average_rating }}</p>
+                    <p>评论数量: {{ course_info.review_count }}</p>
+                    <a href="{{ url_for('review.course_teacher_reviews', course_id=course_info.course_teacher.course.id, teacher_id=course_info.course_teacher.teacher.id) }}" class="btn">查看详情</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 课程评价. 版权所有.</p>
+            <div class="social-links">
+                <a href="https://github.com/hxli2005">Github</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    
+</body>
+</html>

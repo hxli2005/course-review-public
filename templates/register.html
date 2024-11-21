@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>注册 - 课程评价</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="{{ url_for('main.index') }}" class="logo">课程评价</a>
+            <button class="menu-toggle" aria-label="Toggle navigation">
+                ☰
+            </button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="{{ url_for('main.index') }}">首页</a></li>
+                <li><a href="{{ url_for('course.list_courses') }}">课程</a></li>
+                <li><a href="{{ url_for('teacher.list_teachers') }}">教师</a></li>
+                <li><a href="{{ url_for('my.index') }}">我的</a></li>
+                <li><a href="{{ url_for('main.about') }}">关于</a></li>
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('auth.logout') }}" class="btn logout-btn">登出</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('auth.login') }}" class="btn login-btn">登录</a></li>
+                    <li><a href="{{ url_for('auth.register') }}" class="btn signup-btn">注册</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Flash messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+  <ul class="flashes">
+    {% for category, message in messages %}
+      <li class="alert alert-{{ category }}">
+        <span class="message">{{ message }}</span>
+        <button class="close-btn" aria-label="Close">&times;</button>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% endwith %}
+
+
+    <div class="auth-container">
+        <h1>注册</h1>
+        <form action="{{ url_for('auth.register') }}" method="POST" class="register-form">
+            {{ form.csrf_token }}
+
+            <!-- Email Field -->
+            <div class="form-group">
+                <div class="input-group">
+                    {{ form.email_prefix(class="form-control", placeholder="邮箱前缀") }}
+                    <div class="input-group-append">
+                        <span class="input-group-text">@shu.edu.cn</span>
+                    </div>
+                </div>
+                {% if form.email_prefix.errors %}
+                    <div class="text-danger">
+                        {% for error in form.email_prefix.errors %}
+                            <small>{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Name Field -->
+            <div class="form-group">
+                {{ form.name(class="form-control", placeholder="用户名") }}
+                {% if form.name.errors %}
+                    <div class="text-danger">
+                        {% for error in form.name.errors %}
+                            <small>{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Password Field -->
+            <div class="form-group">
+                {{ form.password(class="form-control", placeholder="密码") }}
+                {% if form.password.errors %}
+                    <div class="text-danger">
+                        {% for error in form.password.errors %}
+                            <small>{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Confirm Password Field -->
+            <div class="form-group">
+                {{ form.confirm_password(class="form-control", placeholder="确认密码") }}
+                {% if form.confirm_password.errors %}
+                    <div class="text-danger">
+                        {% for error in form.confirm_password.errors %}
+                            <small>{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn submit-btn">注册</button>
+        </form>
+
+        <p>已经有账号了？ <a href="{{ url_for('auth.login') }}">登录</a></p>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+
+</body>
+</html>

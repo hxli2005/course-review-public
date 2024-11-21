@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ course.course_name }} - {{ teacher.name }} 的评价</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+     <!-- 导航栏 -->
+     <nav class="navbar">
+        <div class="container">
+            <a href="{{ url_for('main.index') }}" class="logo">课程评价</a>
+            <button class="menu-toggle" aria-label="Toggle navigation">
+                ☰
+            </button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="{{ url_for('main.index') }}">首页</a></li>
+                <li><a href="{{ url_for('course.list_courses') }}">课程</a></li>
+                <li><a href="{{ url_for('teacher.list_teachers') }}">教师</a></li>
+                <li><a href="{{ url_for('my.index') }}">我的</a></li>
+                <li><a href="{{ url_for('main.about') }}">关于</a></li>
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('auth.logout') }}" class="btn logout-btn">登出</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('auth.login') }}" class="btn login-btn">登录</a></li>
+                    <li><a href="{{ url_for('auth.register') }}" class="btn signup-btn">注册</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <ul class="flashes">
+        {% for category, message in messages %}
+        <li class="alert alert-{{ category }}">
+            <span class="message">{{ message }}</span>
+            <button class="close-btn" aria-label="Close">&times;</button>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
+    
+    <div class="container">
+        <!-- 页面标题和评分 -->
+        <h1 class="page-title">{{ course.course_name }} - {{ teacher.name }} 的评价</h1>
+         <!-- 返回按钮 -->
+         <a href="{{ url_for('course.list_courses') }}" class="btn back-btn">返回课程列表</a>
+         <a href="{{ url_for('teacher.list_teachers') }}" class="btn back-btn">返回教师列表</a>
+    
+
+        
+        <!-- 添加到我的课程 -->
+        <div class="add-to-my-courses">
+            <form method="POST" action="{{ url_for('review.course_teacher_reviews', course_id=course.id, teacher_id=teacher.id) }}">
+                {{ form.hidden_tag() }}
+                <button type="submit" class="btn add-course-btn">添加到我的课程</button>
+            </form>
+        </div>
+
+        <div class="average-rating">
+            <p>平均评分: <span class="rating">{{ average_rating }}{% if average_rating != '暂无评分' %} / 5{% endif %}</span></p>
+        </div>
+
+        <!-- AI 总结区 -->
+        <section class="ai-summary">
+            <h2>AI 生成的课程总结</h2>
+            <div class="summary-content">
+                {% if course_teacher.summary_data %}
+                    <p>{{ course_teacher.summary_data.replace('\n', '<br>') | safe }}</p>
+                {% else %}
+                    <p>该课程还没有生成 AI 总结。</p>
+                {% endif %}
+            </div>
+        </section>
+
+        <!-- 提交评价表单 -->
+        {% if current_user.is_authenticated %}
+        <section class="submit-review">
+            <h2>提交您的评价</h2>
+            <form id="submitReviewForm" action="{{ url_for('review.submit_review', course_id=course.id, teacher_id=teacher.id) }}" method="POST">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    <label for="rating">评分:</label>
+                    <select name="rating" id="rating" required>
+                        <option value="5">5 - 优秀</option>
+                        <option value="4">4 - 很好</option>
+                        <option value="3">3 - 一般</option>
+                        <option value="2">2 - 差</option>
+                        <option value="1">1 - 很差</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="comment">评论:</label>
+                    <textarea name="comment" id="comment" rows="4" placeholder="在评论时，最好加上您上课的学期，便于数据分析。期待您的精彩评论！" required></textarea>
+                </div>
+                <button type="submit" class="btn submit-btn">提交评价</button>
+            </form>
+
+            <!-- Loading 状态 -->
+            <div id="loadingMessage" class="loading-message">
+                <p>正在审核，请稍候...</p>
+            </div>
+
+        </section>
+        {% else %}
+        <div class="login-prompt">
+            <p>请先 <a href="{{ url_for('auth.login') }}">登录</a> 后再提交评价。</p>
+        </div>
+        {% endif %}
+
+        <!-- 评价列表 -->
+        <section class="reviews">
+            <h2>学生评价</h2>
+            {% if reviews %}
+                <div class="review-list">
+                    {% for review in reviews %}
+                    <div class="review-item">
+                        <div class="review-header">
+                            <span class="review-username">评论家: {{ review.user.name }}</span>
+                            <span class="review-rating">评分: {{ review.rating }} / 5</span>
+                            <span class="review-date">{{ review.created_at.strftime('%Y-%m-%d') }}</span>
+                        </div>
+                        <div class="review-content">
+                            <p>{{ review.comment }}</p>
+                        </div>
+                        <div class="review-actions">
+                            <button class="like-btn" data-review-id="{{ review.id }}">
+                                👍 {{ review.likes }}
+                            </button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <!-- 分页导航 -->
+                <div class="pagination">
+                    {% if pagination %}
+                        <a href="{{ url_for('review.course_teacher_reviews', course_id=course.id, teacher_id=teacher.id, page=pagination.prev_num) }}" class="btn pagination-btn" {% if not pagination.has_prev %}disabled{% endif %}>上一页</a>
+                        <span>第 {{ pagination.page }} 页，共 {{ pagination.pages }} 页</span>
+                        <a href="{{ url_for('review.course_teacher_reviews', course_id=course.id, teacher_id=teacher.id, page=pagination.next_num) }}" class="btn pagination-btn" {% if not pagination.has_next %}disabled{% endif %}>下一页</a>
+                    {% endif %}
+                </div>
+            {% else %}
+                <p>该教师的此课程尚无评价。</p>
+            {% endif %}
+        </section>
+
+        
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+
+    document.querySelector('.menu-toggle').addEventListener('click', function() {
+        document.querySelector('.nav-links').classList.toggle('active');
+    });
+});
+</script>
+
+</body>
+</html>

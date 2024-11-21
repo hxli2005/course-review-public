@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>我的概览 - 课程评价</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="{{ url_for('main.index') }}" class="logo">课程评价</a>
+            <button class="menu-toggle" aria-label="Toggle navigation">
+                ☰
+            </button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="{{ url_for('main.index') }}">首页</a></li>
+                <li><a href="{{ url_for('course.list_courses') }}">课程</a></li>
+                <li><a href="{{ url_for('teacher.list_teachers') }}">教师</a></li>
+                <li><a href="{{ url_for('my.index') }}">我的</a></li>
+                <li><a href="{{ url_for('main.about') }}">关于</a></li>
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('auth.logout') }}" class="btn logout-btn">登出</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('auth.login') }}" class="btn login-btn">登录</a></li>
+                    <li><a href="{{ url_for('auth.register') }}" class="btn signup-btn">注册</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <div class="container">
+        <!-- 页面标题 -->
+        <h1 class="page-title">欢迎, {{ current_user.name }}</h1>
+
+        <!-- 概览信息 -->
+        <section class="overview-section">
+            <div class="overview-card">
+                <h2>课程数量</h2>
+                <p>{{ course_count }}</p>
+                <a href="{{ url_for('my.my_courses') }}" class="btn">查看课程</a>
+            </div>
+            <div class="overview-card">
+                <h2>评价数量</h2>
+                <p>{{ review_count }}</p>
+                <a href="{{ url_for('my.my_reviews') }}" class="btn">查看评价</a>
+            </div>
+            <div class="overview-card">
+                <h2>个人信息</h2>
+                <p>管理你的账户信息</p>
+                <a href="{{ url_for('my.profile') }}" class="btn">编辑个人信息</a>
+            </div>
+        </section>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+
+</body>
+</html>

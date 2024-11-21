@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>个人信息 - 课程评价</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="{{ url_for('main.index') }}" class="logo">课程评价</a>
+            <button class="menu-toggle" aria-label="Toggle navigation">
+                ☰
+            </button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="{{ url_for('main.index') }}">首页</a></li>
+                <li><a href="{{ url_for('course.list_courses') }}">课程</a></li>
+                <li><a href="{{ url_for('teacher.list_teachers') }}">教师</a></li>
+                <li><a href="{{ url_for('my.index') }}">我的</a></li>
+                <li><a href="{{ url_for('main.about') }}">关于</a></li>
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('auth.logout') }}" class="btn logout-btn">登出</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('auth.login') }}" class="btn login-btn">登录</a></li>
+                    <li><a href="{{ url_for('auth.register') }}" class="btn signup-btn">注册</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <ul class="flashes">
+        {% for category, message in messages %}
+        <li class="alert alert-{{ category }}">
+            <span class="message">{{ message }}</span>
+            <button class="close-btn" aria-label="Close">&times;</button>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+    
+    <div class="container profile-container">
+        
+        <!-- 页面标题 -->
+        <h1 class="page-title">个人信息</h1>
+
+        <!-- 个人信息表单 -->
+        <form action="{{ url_for('my.profile') }}" method="POST" class="profile-form">
+            {{ profile_form.csrf_token }}
+            <div class="form-group">
+                <label for="name">用户名:</label>
+                {{ profile_form.name(class="form-control", placeholder="用户名") }}
+            </div>
+            <div class="form-group">
+                <label for="email">邮箱:</label>
+                <input type="email" class="form-control" value="{{ current_user.email }}" disabled>
+            </div>
+            <button type="submit" class="btn save-btn">保存修改</button>
+        </form>
+
+        <!-- 修改密码表单 -->
+        <div class="change-password-section">
+            <h2>修改密码</h2>
+            <form action="{{ url_for('my.change_password') }}" method="POST" class="change-password-form">
+                {{ change_password_form.csrf_token }}
+                <div class="form-group">
+                    <label for="current_password">当前密码:</label>
+                    {{ change_password_form.current_password(class="form-control", placeholder="当前密码") }}
+                </div>
+                <div class="form-group">
+                    <label for="new_password">新密码:</label>
+                    {{ change_password_form.new_password(class="form-control", placeholder="新密码") }}
+                </div>
+                <div class="form-group">
+                    <label for="confirm_password">确认新密码:</label>
+                    {{ change_password_form.confirm_new_password(class="form-control", placeholder="确认新密码") }}
+                </div>
+                <button type="submit" class="btn save-btn">修改密码</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+
+</body>
+</html>

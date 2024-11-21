@@ -1,0 +1,1541 @@
+/* ========== Reset & Base Styles ========== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    font-family: '微软雅黑', Arial, sans-serif;
+    background-color: #f4f7fa; /* 柔和的背景色 */
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex: 1; /* 主内容区域扩展填满剩余空间 */
+}
+
+/* ========== Logo Styles ========== */
+.logo {
+    color: #B0BEC5; /* 银灰色 */
+    font-size: 2rem;
+    font-weight: bold;
+    text-decoration: none;
+    transition: transform 0.3s ease, color 0.3s ease;
+    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.2); /* 高亮阴影 */
+}
+
+.logo:hover {
+    color: #90A4AE; /* 更深的银灰色 */
+    transform: scale(1.05);
+    text-shadow: 0 4px 8px rgba(255, 255, 255, 0.4);
+}
+
+/* ========== Navbar ========== */
+.navbar {
+    background-color: #005BAC; /* 上大蓝 */
+    padding: 1rem 0;
+    position: relative;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-links a {
+    color: #FFF;
+    text-decoration: none;
+    padding: 0.5rem;
+    display: block;
+}
+
+.menu-toggle {
+    display: none; /* 默认隐藏 */
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* ========== Flash Messages ========== */
+.flashes {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+.flashes .alert {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #FFF;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer; /* 增加鼠标指针效果 */
+}
+
+.flashes .alert-info {
+    background-color: #017BFF;
+}
+
+.flashes .alert-success {
+    background-color: #28A745;
+}
+
+.flashes .alert-warning {
+    background-color: #FFC107;
+    color: #333;
+}
+
+.flashes .alert-danger {
+    background-color: #DC3545;
+}
+
+.flashes .alert:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* ========== Bubble Burst Animation ========== */
+@keyframes bubble-burst {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    80% {
+        transform: scale(1.2);
+        opacity: 0.6;
+    }
+    100% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+}
+
+.burst {
+    animation: bubble-burst 0.6s forwards; /* 添加破碎动画 */
+}
+
+/* ========== Buttons ========== */
+.btn {
+    background-color: #005BAC;
+    color: white;
+    padding: 0.5rem 1.5rem; /* 保持一致的 padding */
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1rem; /* 保持一致的 font-size */
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    display: inline-flex; /* 使用 inline-flex 保持一致大小 */
+    justify-content: center; /* 内容居中 */
+    align-items: center; /* 内容垂直居中 */
+    min-width: 80px; /* 设置最小宽度确保一致 */
+}
+
+/* 统一 a.btn 和 button.btn 的样式 */
+a.btn, button.btn {
+    appearance: none; /* 移除默认按钮样式 */
+    -webkit-appearance: none; /* 兼容 Safari */
+    border: none;
+    padding:0.5rem 1.5rem; /* 取消默认的内边距 */
+    line-height: normal;
+}
+.edit-btn {
+    background-color: #007BFF; /* 蓝色 */
+}
+
+.delete-btn {
+    background-color: #DC3545; /* 红色 */
+}
+.btn:hover {
+    background-color: #004A93; /* 更深的蓝色 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 添加阴影以增加质感 */
+}
+
+.btn:active {
+    background-color: #003A7A; /* 点击时更深 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 点击时减少阴影 */
+}
+
+.logout-btn, .login-btn, .signup-btn {
+    margin-left: 0.5rem;
+    display: inline-block;
+}
+
+.edit-btn {
+    background-color: #005BAC;
+}
+
+.edit-btn:hover {
+    background-color: #005BAC;
+}
+
+.delete-btn {
+    background-color: #DC3545; /* 红色 */
+}
+
+.delete-btn:hover {
+    background-color: #C82333;
+}
+
+/* ========== Hero Section ========== */
+.hero {
+    background-color: #F4F4F4;
+    text-align: center;
+    padding: 4rem 0;
+}
+
+.hero .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero-title {
+    color: #005BAC; /* 上大蓝 */
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.hero-btn {
+    font-size: 1.1rem;
+}
+
+/* ========== Features Section ========== */
+.features {
+    background-color: #FFF;
+    padding: 2rem 0;
+}
+
+.features-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: space-around;
+}
+
+.feature-item {
+    flex: 1 1 calc(33.333% - 2rem); /* 在大屏上每行显示三项 */
+    min-width: 250px;
+    padding: 1rem;
+    background-color: #FAFAFA;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.feature-item h3 {
+    color: #005BAC; /* 上大蓝 */
+    margin-bottom: 0.5rem;
+}
+
+/* ========== Popular Section ========== */
+.popular {
+    padding: 2rem 0;
+}
+
+.cards-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: space-around;
+}
+
+.course-card {
+    flex: 1 1 calc(33.333% - 2rem); /* 在大屏上每行显示三项 */
+    min-width: 250px;
+    background-color: #FAFAFA;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+    transition: box-shadow 0.3s ease;
+}
+
+.course-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ========== Footer ========== */
+.footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: auto; /* 将页脚推送到底部 */
+}
+
+.footer .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer .social-links a {
+    color: white;
+    text-decoration: none;
+    margin: 0 0.5rem;
+}
+
+/* ========== About Page Styles ========== */
+.about-hero {
+    background-color: #F4F4F4;
+    text-align: center;
+    padding: 4rem 0;
+}
+
+.about-title {
+    color: #0A3D62;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.about-subtitle {
+    color: #666;
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+.about-content {
+    padding: 3rem 0;
+    background-color: #FFF;
+}
+
+.about-section {
+    margin-bottom: 2rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid #DDD;
+}
+
+.about-section h2 {
+    color: #0A3D62;
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.about-section p {
+    color: #333;
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.personal-intro p {
+    color: #333;
+}
+
+/* 打赏区域样式 */
+.donation-section {
+    text-align: center;
+    margin: 3rem 0;
+    background-color: #f9f9f9;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.donation-section h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.donation-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.donation-qrcode {
+    width: 500px;
+    height: 500px;
+    margin-bottom: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.donation-note {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.donation-thanks {
+    font-size: 1.2rem;
+    color: #017BFF;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+
+
+/* ========== Page Title ========== */
+.page-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #0A3D62; /* 深蓝色 */
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 0.5rem;
+}
+
+/* ========== Search Section ========== */
+.search-section {
+    margin-bottom: 2rem;
+}
+
+.search-input {
+    padding: 0.5rem;
+    width: 70%;
+    max-width: 400px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-right: 1rem;
+}
+
+.search-btn {
+    padding: 0.5rem 1rem;
+}
+
+/* ========== Course Details ========== */
+.course-details {
+    background: linear-gradient(145deg, #f7f7f7, #ffffff);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.course-details p {
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.highlight {
+    color: #005BAC;
+    font-weight: bold;
+}
+
+/* ========== Teacher Card Styles ========== */
+.teachers-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: space-around;
+}
+
+.teacher-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block; /* 使链接覆盖整个卡片 */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.teacher-card-link:hover .teacher-card {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.teacher-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    border: 1px solid #ddd;
+    background: linear-gradient(145deg, #f7f7f7, #ffffff);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.teacher-card h3 {
+    font-size: 1.2rem;
+    color: #005BAC;
+    margin-bottom: 0.5rem;
+}
+
+.teacher-card .teacher-bio {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+.left-info {
+    flex: 2;
+    margin-right: 20px;
+}
+
+.right-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.review-count {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+.rating {
+    display: flex;
+    gap: 2px;
+}
+
+.star {
+    font-size: 1.2rem;
+    color: #FFD700; /* 金色实心星星 */
+}
+
+.star.empty {
+    color: #ccc; /* 灰色空心星星 */
+}
+
+
+/* ========== Highlight and Emphasis ========== */
+.highlight {
+    color: #005BAC;
+    font-weight: bold;
+}
+
+.important-info {
+    font-size: 1.2rem;
+    color: #0A3D62;
+    margin-top: 1rem;
+    border-top: 1px solid #ddd;
+    padding-top: 1rem;
+    display: flex;
+    align-items: center;
+}
+/* ========== Pagination ========== */
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.pagination-btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: #005BAC;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.pagination-btn:hover {
+    background-color: #004A93;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.pagination-btn.disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+}
+/* ========== Back Button ========== */
+.back-btn {
+    background-color: #005BAC;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.back-btn:hover {
+    background-color: #004A93;
+    transform: translateY(-3px); /* 悬停时轻微上移 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* ========== Teacher Bio Section ========== */
+.teacher-bio-section {
+    background: linear-gradient(145deg, #f7f7f7, #ffffff);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.teacher-bio-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #0A3D62;
+}
+
+.teacher-bio-section p {
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+/* ========== Courses Section ========== */
+.courses-section {
+    margin-bottom: 2rem;
+}
+
+.courses-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: space-around;
+}
+
+.course-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block; /* 使链接覆盖整个卡片 */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.course-card-link:hover .course-card {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.course-card {
+    flex: 1 1 calc(33.333% - 2rem); /* 在大屏上每行显示三项 */
+    min-width: 250px;
+    background-color: #FAFAFA;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+    transition: box-shadow 0.3s ease;
+    user-select: none;
+}
+
+.course-card h3 {
+    font-size: 1.2rem;
+    color: #005BAC;
+    margin-bottom: 0.5rem;
+}
+
+.course-card .course-code,
+.course-card .course-description,
+.course-card .course-teachers,
+.course-card .course-semesters {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+/* ========== Average Rating ========== */
+.average-rating {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+.rating {
+    font-weight: bold;
+    color: #FFD700;
+}
+
+/* ========== AI Summary ========== */
+.ai-summary {
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #ddd;
+}
+
+.ai-summary h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #0A3D62;
+}
+
+.summary-content p {
+    font-size: 1.1rem;
+    color: #333;
+    line-height: 1.5;
+}
+
+/* ========== Reviews Section ========== */
+.reviews {
+    margin-bottom: 2rem;
+}
+
+.reviews-section {
+    margin-top: 2rem;
+}
+
+
+.reviews h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #0A3D62;
+}
+
+.review-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.review-item {
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.review-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.review-content {
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.review-actions {
+    text-align: right;
+}
+
+.review-rating {
+    font-weight: bold;
+    color: #FFD700; /* 金色 */
+}
+
+.review-date {
+    color: #999;
+}
+
+.review-content p {
+    margin-bottom: 0.5rem;
+}
+
+.review-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.like-btn {
+    background: none;
+    border: none;
+    color: #005BAC;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.like-btn.liked {
+    color: #FFD700;
+}
+
+.like-btn:hover {
+    color: #004A93;
+}
+
+/* ========== Submit Review Section ========== */
+.submit-review {
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    border: 1px solid #ddd;
+    background-color: #f0f4f8; /* 提升表单的高级感 */
+    box-shadow: 0 4px 8px rgba(0, 91, 172, 0.1); /* 添加阴影效果 */
+    transition: box-shadow 0.3s ease;
+}
+
+.submit-review:hover {
+    box-shadow: 0 6px 12px rgba(0, 91, 172, 0.2); /* 增加悬停时的阴影 */
+}
+
+.submit-review h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #0A3D62;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #fff;
+    transition: border-color 0.3s ease;
+}
+
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #005BAC;
+    outline: none;
+}
+
+.submit-btn {
+    background-color: #005BAC;
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #004A93;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.loading-message {
+    display: none;
+    margin-top: 1rem;
+    font-size: 1rem;
+    color: #666;
+}
+
+/* ========== Auth Container ========== */
+.auth-container {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.auth-container h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #0A3D62;
+}
+
+.auth-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.auth-container input[type="email"],
+.auth-container input[type="password"],
+.auth-container input[type="text"] {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.auth-container button {
+    background-color: #005BAC;
+    color: white;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.auth-container button:hover {
+    background-color: #004A93;
+}
+
+.flashes {
+    list-style: none;
+    margin: 1rem auto;
+    padding: 0;
+    max-width: 500px;
+}
+
+.flashes li {
+    margin-bottom: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.alert-success {
+    background-color: #D4EDDA;
+    color: #155724;
+}
+
+.alert-info {
+    background-color: #D1ECF1;
+    color: #0C5460;
+}
+
+.alert-warning {
+    background-color: #FFF3CD;
+    color: #856404;
+}
+
+.alert-danger {
+    background-color: #F8D7DA;
+    color: #721C24;
+}
+
+/* ========== Form Styles ========== */
+.login-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.verify-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+    border-color: #005BAC;
+    outline: none;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+}
+
+.form-control {
+    flex: 1;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 5px 0 0 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.input-group-append .input-group-text {
+    background-color: #eee;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-left: none;
+    border-radius: 0 5px 5px 0;
+    font-size: 1rem;
+    color: #666;
+}
+
+.form-control:focus {
+    border-color: #005BAC;
+    outline: none;
+}
+
+.text-danger {
+    margin-top: 0.5rem;
+    color: #DC3545;
+    font-size: 0.9rem;
+}
+
+/* ========== Form Options ========== */
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.form-options label {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.forgot-password {
+    font-size: 0.9rem;
+    color: #005BAC;
+    text-decoration: none;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+.search-courses-section {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.form-control {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.submit-btn {
+    padding: 10px 20px;
+    background-color: #005BAC;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #004A93;
+}
+
+.text-danger small {
+    color: red;
+    font-size: 0.9em;
+}
+
+/* ========== Profile Page ========== */
+.profile-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.page-title {
+    font-size: 2rem;
+    color: #005BAC;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: bold;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #005BAC;
+    outline: none;
+}
+
+.save-btn {
+    background-color: #005BAC;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.save-btn:hover {
+    background-color: #004A93;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.change-password-section {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #ddd;
+}
+
+.change-password-section h2 {
+    font-size: 1.5rem;
+    color: #0A3D62;
+    margin-bottom: 1rem;
+}
+
+.change-password-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+/* ========== Courses Section ========== */
+.my-courses-section, .import-courses-section, .search-courses-section {
+    margin-bottom: 2rem;
+    background: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.my-courses-section h2, .import-courses-section h2, .search-courses-section h2 {
+    margin-bottom: 1rem;
+    color: #005BAC;
+}
+
+.courses-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.course-item {
+    flex: 1 1 calc(33% - 1rem);
+    background: #fff;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.course-item:hover {
+    transform: scale(1.02);
+}
+
+.course-actions .btn {
+    margin-top: 0.5rem;
+}
+
+/* ========== Overview Section ========== */
+.overview-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: space-between;
+    margin-top: 2rem;
+}
+
+.overview-card {
+    flex: 1 1 calc(33.333% - 2rem);
+    min-width: 250px;
+    background-color: #FAFAFA;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.overview-card h2 {
+    color: #005BAC;
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.overview-card p {
+    font-size: 2rem;
+    margin: 1rem 0;
+    color: #333;
+}
+
+.overview-card .btn {
+    margin-top: 1rem;
+    background-color: #005BAC;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.overview-card .btn:hover {
+    background-color: #004A93;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.overview-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* ========== Import Section ========== */
+.import-section {
+    background: #f7f7f7;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
+}
+
+.import-section p {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.import-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #005BAC;
+}
+
+.form-control {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #005BAC;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 91, 172, 0.1);
+}
+
+.submit-btn {
+    background-color: #005BAC;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #004A93;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* ========== Import Results ========== */
+.import-results {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border-radius: 8px;
+    background-color: #FFF;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.import-results h2 {
+    color: #005BAC;
+    margin-bottom: 1rem;
+}
+
+.import-results ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.import-results li {
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: 5px;
+}
+
+.import-results .success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.import-results .error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* ========== Reviews Section ========== */
+.reviews-section {
+    margin-top: 2rem;
+    background: #f7f7f7;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.review-item {
+    background: #ffffff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.review-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.course-name {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #005BAC;
+}
+
+.review-rating {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #28A745;
+}
+
+.review-date {
+    font-size: 0.875rem;
+    color: #666;
+}
+
+.review-content {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.review-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.edit-btn {
+    background-color: #005BAC;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.edit-btn:hover {
+    background-color: #004A93;
+}
+
+.delete-btn {
+    background-color: #DC3545;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+    background-color: #C82333;
+}
+/* ========== My Courses Section ========== */
+.my-courses-section {
+    margin-top: 2rem;
+}
+
+.my-courses-section h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #005BAC;
+    text-align: center;
+}
+
+.courses-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: space-around;
+}
+
+.course-item {
+    background-color: #FAFAFA;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 30%;
+}
+
+.course-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.course-item h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.course-teacher,
+.course-semester {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
+}
+
+.course-actions {
+    margin-top: 1rem;
+}
+
+.view-details-btn,
+.delete-btn {
+    background-color: #005BAC;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.view-details-btn:hover,
+.delete-btn:hover {
+    background-color: #003F87;
+}
+
+.delete-btn {
+    background-color: #DC3545;
+    margin-top: 0.5rem;
+}
+
+.delete-btn:hover {
+    background-color: #C82333;
+}
+
+/* ========== Responsive Design ========== */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none; /* 初始隐藏导航栏项目 */
+        flex-direction: column;
+        gap: 0.5rem;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #005BAC;
+        padding: 1rem 0;
+    }
+
+    .nav-links.active {
+        display: flex; /* 切换按钮点击时显示 */
+    }
+
+    .menu-toggle {
+        display: block; /* 小屏时显示切换按钮 */
+    }
+
+    .course-card, .feature-item {
+        flex: 1 1 100%; /* 在小屏上每行显示一项 */
+    }
+    .donation-qrcode {
+        width: 200px; /* 在移动设备上显示较小的二维码 */
+        height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 2rem; /* 在非常小的屏幕上调整标题字体大小 */
+    }
+
+    .hero-subtitle {
+        font-size: 1rem; /* 在非常小的屏幕上调整副标题字体大小 */
+    }
+}

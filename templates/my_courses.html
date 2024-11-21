@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>课程管理 - 课程评价</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+
+     <!-- 导航栏 -->
+     <nav class="navbar">
+        <div class="container">
+            <a href="{{ url_for('main.index') }}" class="logo">课程评价</a>
+            <button class="menu-toggle" aria-label="Toggle navigation">
+                ☰
+            </button>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('main.index') }}">首页</a></li>
+                <li><a href="{{ url_for('course.list_courses') }}">课程</a></li>
+                <li><a href="{{ url_for('teacher.list_teachers') }}">教师</a></li>
+                <li><a href="{{ url_for('my.index') }}">我的</a></li>
+                <li><a href="{{ url_for('main.about') }}">关于</a></li>
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('auth.logout') }}" class="btn logout-btn">登出</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('auth.login') }}" class="btn login-btn">登录</a></li>
+                    <li><a href="{{ url_for('auth.register') }}" class="btn signup-btn">注册</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <ul class="flashes">
+        {% for category, message in messages %}
+        <li class="alert alert-{{ category }}">
+            <span class="message">{{ message }}</span>
+            <button class="close-btn" aria-label="Close">&times;</button>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
+    <div class="container">
+        <!-- 页面标题 -->
+        <h1 class="page-title">课程管理</h1>
+
+        <!-- 查看我的课程 -->
+        <section class="my-courses-section">
+            <h2>我的课程</h2>
+            {% if user_courses %}
+                <div class="courses-list">
+                    {% for user_course in user_courses %}
+                    <div class="course-item">
+                        <h3>{{ user_course.course.course_name }}</h3>
+                        <p class="course-teacher">教师: {{ user_course.teacher.name }}</p>
+                        <div class="course-actions">
+                            <a href="{{ url_for('review.course_teacher_reviews', course_id=user_course.course.id, teacher_id=user_course.teacher.id) }}" class="btn view-details-btn">查看详情</a>
+                        </div>
+                        <form method="POST" action="{{ url_for('my.delete_course', course_teacher_id=user_course.id) }}" style="display:inline;">
+                            {{ upload_form.csrf_token }}
+                            <button type="submit" class="btn delete-btn" onclick="return confirm('你确定要删除这条评价吗？');">删除</button>
+                        </form>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>你还没有添加任何课程。</p>
+            {% endif %}
+        </section>
+
+
+        <!-- 从 PDF 导入课程表 -->
+        <section class="import-courses-section">
+            <h2>从 PDF 导入课程表</h2>
+            <form action="{{ url_for('my.import_courses') }}" method="POST" enctype="multipart/form-data" class="import-form">
+                {{ upload_form.csrf_token }}
+                <div class="form-group">
+                    {{ upload_form.pdf_file(class="upload_form-control") }}
+                    {% if upload_form.pdf_file.errors %}
+                        <div class="text-danger">
+                            {% for error in upload_form.pdf_file.errors %}
+                                <small>{{ error }}</small>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn submit-btn">上传并导入</button>
+            </form>
+            <!-- 导入结果显示 -->
+            {% if import_results %}
+            <div class="import-results">
+                <h2>导入结果</h2>
+                <ul>
+                    {% for result in import_results %}
+                        <li class="{{ 'success' if result.success else 'error' }}">
+                            {{ result.message }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        </section>
+
+
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+
+</body>
+</html>

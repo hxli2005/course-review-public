@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>课程评价 - 关于我们</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="{{ url_for('main.index') }}" class="logo">课程评价</a>
+            <button class="menu-toggle" aria-label="Toggle navigation">
+                ☰
+            </button>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('main.index') }}">首页</a></li>
+                <li><a href="{{ url_for('course.list_courses') }}">课程</a></li>
+                <li><a href="{{ url_for('teacher.list_teachers') }}">教师</a></li>
+                <li><a href="{{ url_for('my.index') }}">我的</a></li>
+                <li><a href="{{ url_for('main.about') }}">关于</a></li>
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('auth.logout') }}" class="btn logout-btn">登出</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('auth.login') }}" class="btn login-btn">登录</a></li>
+                    <li><a href="{{ url_for('auth.register') }}" class="btn signup-btn">注册</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 关于我们 主区 -->
+    <section class="about-hero">
+        <div class="container">
+            <h1 class="about-title">关于课程评价</h1>
+            <p class="about-subtitle">我们致力于为学生提供一个可信赖的课程和教师评价平台，帮助学生做出更好的选择。</p>
+        </div>
+    </section>
+
+    <!-- 关于内容区 -->
+<section class="about-content">
+    <div class="container">
+        
+        <!-- 现有的愿景、开发者介绍等 -->
+        <div class="about-section">
+            <h2>我们的愿景</h2>
+            <p>我们希望通过透明和真实的课程评价体系，帮助学生更好地选择适合自己的课程，为每位学生的学术生涯提供支持和参考。</p>
+        </div>
+
+        <div class="about-section personal-intro">
+            <h2>关于开发者</h2>
+            <p>你好，我是Lhx，负责这个网站的开发和维护。虽然叫“全栈开发”，但其实就是写代码、修Bug、跑服务器、设计页面、搞数据库的“全职劳模”。</p>
+            <p>我特别期待大家的反馈，不管是建议、意见，还是‘这功能有点迷’，我都会虚心接受。毕竟，改进的路上，需要大家一起吐槽和支持。如果你觉得这个平台对你有帮助，随时欢迎支持一下（咖啡和精神食粮总是很需要的）！</p>
+        </div>
+
+        <div class="about-section">
+            <h2>联系我们</h2>
+            <p>如果你有任何问题或建议，请通过以下方式联系我们：<br>邮箱: lihaoxiang05@gmail.com</p>
+        </div>
+    </div>
+
+    <!-- 打赏区域 -->
+    <div class="about-section donation-section">
+        <h2>支持这个项目</h2>
+        <p>如果你觉得这个平台对你有所帮助，欢迎通过以下方式支持我!。</p>
+        <div class="donation-info">
+            <img src="{{ url_for('static', filename='images/vxqrcode.jpg') }}" alt="打赏二维码" class="donation-qrcode">
+            <p class="donation-note">扫描二维码，支持开发者。</p>
+            <p class="donation-thanks">感谢您的支持！每一份打赏都会让这个平台变得更好。</p>
+        </div>
+    </div>
+
+</section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 课程评价. 版权所有.</p>
+            <div class="social-links">
+                <a href="https://github.com/hxli2005">Github</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>

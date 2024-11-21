@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>课程列表 - 课程评价</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="{{ url_for('main.index') }}" class="logo">课程评价</a>
+            <button class="menu-toggle" aria-label="Toggle navigation">
+                ☰
+            </button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="{{ url_for('main.index') }}">首页</a></li>
+                <li><a href="{{ url_for('course.list_courses') }}">课程</a></li>
+                <li><a href="{{ url_for('teacher.list_teachers') }}">教师</a></li>
+                <li><a href="{{ url_for('my.index') }}">我的</a></li>
+                <li><a href="{{ url_for('main.about') }}">关于</a></li>
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('auth.logout') }}" class="btn logout-btn">登出</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('auth.login') }}" class="btn login-btn">登录</a></li>
+                    <li><a href="{{ url_for('auth.register') }}" class="btn signup-btn">注册</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+<div class="container">
+    <!-- 页面标题 -->
+    <h1 class="page-title">课程列表</h1>
+
+    <!-- 搜索栏 -->
+    <div class="search-section">
+        <form action="{{ url_for('course.list_courses') }}" method="GET">
+            <input type="text" name="search" placeholder="搜索课程..." class="search-input" value="{{ search_query }}">
+            <button type="submit" class="btn search-btn">搜索</button>
+        </form>
+    </div>
+
+    <!-- 课程列表 -->
+    <div class="courses-grid">
+        {% for item in courses %}
+        <div class="course-card">
+            <h3>{{ item.course.course_name }}</h3>
+            <p class="course-code">{{ item.course.course_code }}</p>
+            <p class="course-description"><strong>类型:</strong> {{ item.course.type }}</p>
+            <p class="course-teacher" title="{{ item.teachers }}"><strong>教师:</strong> {{ item.teachers }}</p>
+            <p><strong>学期:</strong> {{ item.semesters }}</p>
+            <p><strong>评论数量:</strong> {{ item.review_count }}</p> <!-- 显示评论数量 -->
+            <a href="{{ url_for('course.course_detail', course_id=item.course.id) }}" class="btn view-details-btn" target="_blank">查看详情</a>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- 分页导航 -->
+    <div class="pagination">
+        <form action="{{ url_for('course.list_courses') }}" method="get" style="display:inline;">
+            <input type="hidden" name="search" value="{{ search_query }}">
+            <label for="per_page">每页显示:</label>
+            <select name="per_page" id="per_page" onchange="this.form.submit()">
+                <option value="5" {% if per_page == 5 %}selected{% endif %}>5</option>
+                <option value="10" {% if per_page == 10 %}selected{% endif %}>10</option>
+                <option value="20" {% if per_page == 20 %}selected{% endif %}>20</option>
+            </select>
+        </form>
+    
+        {% if pagination.has_prev %}
+            <a href="{{ url_for('course.list_courses', page=pagination.prev_num, per_page=per_page, search=search_query) }}" class="btn pagination-btn">上一页</a>
+        {% else %}
+            <span class="btn pagination-btn disabled">上一页</span>
+        {% endif %}
+    
+        <span>第 {{ pagination.page }} 页，共 {{ pagination.pages }} 页</span>
+    
+        {% if pagination.has_next %}
+            <a href="{{ url_for('course.list_courses', page=pagination.next_num, per_page=per_page, search=search_query) }}" class="btn pagination-btn">下一页</a>
+        {% else %}
+            <span class="btn pagination-btn disabled">下一页</span>
+        {% endif %}
+    
+        <form action="{{ url_for('course.list_courses') }}" method="get" style="display:inline;">
+            <input type="hidden" name="search" value="{{ search_query }}">
+            <input type="hidden" name="per_page" value="{{ per_page }}">
+            <label for="page">跳转到:</label>
+            <input type="number" name="page" id="page" min="1" max="{{ pagination.pages }}" value="{{ pagination.page }}" style="width:50px;">
+            <button type="submit" class="btn pagination-btn">跳转</button>
+        </form>
+    </div>
+</div>
+
+<!-- 页脚 -->
+<footer class="footer">
+    <div class="container">
+        <p>&copy; 2024 课程评价. 版权所有.</p>
+        <div class="social-links">
+            <a href="https://github.com/hxli2005">Github</a>
+        </div>
+    </div>
+</footer>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>邮箱验证 - 注册</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+
+    <!-- Flash messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+  <ul class="flashes">
+    {% for category, message in messages %}
+      <li class="alert alert-{{ category }}">
+        <span class="message">{{ message }}</span>
+        <button class="close-btn" aria-label="Close">&times;</button>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% endwith %}
+
+
+    <div class="auth-container">
+        <h1>验证您的邮箱</h1>
+        <p>我们已发送验证码到您的邮箱 <strong>{{ email }}</strong>，请输入验证码以完成注册。</p>
+        <form method="post" action="{{ url_for('auth.verify_email', email=email) }}" class="verify-form">
+            {{ form.csrf_token }} <!-- 确保包含 CSRF token -->
+            <div class="form-group">
+                {{ form.verification_code(class="form-control", placeholder="验证码") }} <!-- 使用表单字段渲染 -->
+            </div>
+            {{ form.submit(class="btn submit-btn") }} <!-- 使用表单提交按钮 -->
+        </form>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>编辑评价 - 课程评价</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="{{ url_for('main.index') }}" class="logo">课程评价</a>
+            <button class="menu-toggle" aria-label="Toggle navigation">
+                ☰
+            </button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="{{ url_for('main.index') }}">首页</a></li>
+                <li><a href="{{ url_for('course.list_courses') }}">课程</a></li>
+                <li><a href="{{ url_for('teacher.list_teachers') }}">教师</a></li>
+                <li><a href="{{ url_for('my.index') }}">我的</a></li>
+                <li><a href="{{ url_for('main.about') }}">关于</a></li>
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('auth.logout') }}" class="btn logout-btn">登出</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('auth.login') }}" class="btn login-btn">登录</a></li>
+                    <li><a href="{{ url_for('auth.register') }}" class="btn signup-btn">注册</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- Flash messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+  <ul class="flashes">
+    {% for category, message in messages %}
+      <li class="alert alert-{{ category }}">
+        <span class="message">{{ message }}</span>
+        <button class="close-btn" aria-label="Close">&times;</button>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% endwith %}
+
+    
+    <div class="container">
+        <!-- 页面标题 -->
+        <h1 class="page-title">编辑评价</h1>
+
+        <div class="submit-review-section">
+            <h2>修改您的评价</h2>
+            <form id="editReviewForm" action="{{ url_for('review.edit_review', review_id=review.id) }}" method="POST">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    <label for="rating">评分:</label>
+                    <select name="rating" id="rating" required>
+                        <option value="5" {% if form.rating.data == 5 %}selected{% endif %}>5 - 优秀</option>
+                        <option value="4" {% if form.rating.data == 4 %}selected{% endif %}>4 - 很好</option>
+                        <option value="3" {% if form.rating.data == 3 %}selected{% endif %}>3 - 一般</option>
+                        <option value="2" {% if form.rating.data == 2 %}selected{% endif %}>2 - 差</option>
+                        <option value="1" {% if form.rating.data == 1 %}selected{% endif %}>1 - 很差</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="comment">评论:</label>
+                    <textarea name="comment" id="comment" rows="4" placeholder="请分享您对该课程的改进建议或想法。" required>{{ form.comment.data }}</textarea>
+                </div>
+                <button type="submit" class="btn submit-btn">提交修改</button>
+            </form>
+
+            <!-- Loading 状态 -->
+            <div id="loadingMessage" class="loading-message">
+                <p>正在审核，请稍候...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+
+</body>
+</html>

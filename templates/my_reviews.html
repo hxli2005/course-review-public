@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>我的评价 - 课程评价</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="{{ url_for('main.index') }}" class="logo">课程评价</a>
+            <button class="menu-toggle" aria-label="Toggle navigation">
+                ☰
+            </button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="{{ url_for('main.index') }}">首页</a></li>
+                <li><a href="{{ url_for('course.list_courses') }}">课程</a></li>
+                <li><a href="{{ url_for('teacher.list_teachers') }}">教师</a></li>
+                <li><a href="{{ url_for('my.index') }}">我的</a></li>
+                <li><a href="{{ url_for('main.about') }}">关于</a></li>
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('auth.logout') }}" class="btn logout-btn">登出</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('auth.login') }}" class="btn login-btn">登录</a></li>
+                    <li><a href="{{ url_for('auth.register') }}" class="btn signup-btn">注册</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 我的评价 主内容区 -->
+    <div class="container">
+        <!-- 页面标题 -->
+        <h1 class="page-title">我的评价</h1>
+
+        <!-- 评价列表 -->
+        <div class="reviews-section">
+            {% if reviews %}
+                <div class="reviews-list">
+                    {% for review in reviews %}
+                    <div class="review-item">
+                        <div class="review-header">
+                            <h3 class="course-name">{{ review.course_teacher.course.course_name }}</h3>
+                            <span class="review-rating">评分: {{ review.rating }} / 5</span>
+                            <span class="review-date">{{ review.created_at.strftime('%Y-%m-%d') }}</span>
+                        </div>
+                        <div class="review-content">
+                            <p><strong>教师:</strong> {{ review.course_teacher.teacher.name }}</p>
+                            <p>{{ review.comment }}</p>
+                        </div>
+                        <div class="review-actions">
+                            <a href="{{ url_for('my.edit_review', review_id=review.id) }}" class="btn edit-btn">编辑</a>
+                            <form action="{{ url_for('my.delete_review', review_id=review.id) }}" method="POST" style="display:inline;">
+                                {{ form.csrf_token }}
+                                <button type="submit" class="btn delete-btn" onclick="return confirm('你确定要删除这条评价吗？');">删除</button>
+                            </form>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <!-- 分页导航 -->
+                <div class="pagination">
+                    {% if pagination %}
+                        <a href="{{ url_for('my.my_reviews', page=pagination.prev_num) }}" class="btn pagination-btn" {% if not pagination.has_prev %}disabled{% endif %}>上一页</a>
+                        <span>第 {{ pagination.page }} 页，共 {{ pagination.pages }} 页</span>
+                        <a href="{{ url_for('my.my_reviews', page=pagination.next_num) }}" class="btn pagination-btn" {% if not pagination.has_next %}disabled{% endif %}>下一页</a>
+                    {% endif %}
+                </div>
+            {% else %}
+                <p>你还没有提交任何评价。</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+
+</body>
+</html>

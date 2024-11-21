@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ course.course_name }} - 课程详情</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="{{ url_for('main.index') }}" class="logo">课程评价</a>
+            <button class="menu-toggle" aria-label="Toggle navigation">
+                ☰
+            </button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="{{ url_for('main.index') }}">首页</a></li>
+                <li><a href="{{ url_for('course.list_courses') }}">课程</a></li>
+                <li><a href="{{ url_for('teacher.list_teachers') }}">教师</a></li>
+                <li><a href="{{ url_for('my.index') }}">我的</a></li>
+                <li><a href="{{ url_for('main.about') }}">关于</a></li>
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('auth.logout') }}" class="btn logout-btn">登出</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('auth.login') }}" class="btn login-btn">登录</a></li>
+                    <li><a href="{{ url_for('auth.register') }}" class="btn signup-btn">注册</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <!-- 页面标题 -->
+        <h1 class="page-title">{{ course.course_name }} - 课程详情</h1>
+
+        <!-- 课程基本信息 -->
+        <div class="course-details">
+            <p><strong class="highlight">课程代码:</strong> {{ course.course_code }}</p>
+            <p><strong class="highlight">课程类型:</strong> {{ course.type }}</p>
+            <p><strong class="highlight">学分:</strong> {{ course.credit }}</p>
+        </div>
+        <!-- 返回按钮 -->
+        <a href="{{ url_for('course.list_courses') }}" class="btn back-btn">返回课程列表</a>
+        
+        <!-- 教师和学期信息 -->
+        <div class="teachers-section">
+            <h2>教师与学期</h2>
+            <ul>
+                {% for info in teachers_info %}
+                <a href="{{ url_for('review.course_teacher_reviews', course_id=course.id, teacher_id=info.teacher_id) }}" class="teacher-card-link">
+                    <li class="teacher-card">
+                        <div class="left-info">
+                            <p><strong>教师:</strong> 
+                                {{ info.teacher_name }} ({{ info.teacher_title }})
+                            </p>
+                            <p><strong>学期:</strong> {{ info.semester_name }}</p>
+                        </div>
+                        <div class="right-info">
+                            <p class="review-count">评论数量: {{ info.review_count }}</p>
+                            <div class="rating">
+                                {% for star in range(info.average_rating|int) %}
+                                    <span class="star">&#9733;</span> <!-- 实心星星 -->
+                                {% endfor %}
+                                {% for empty_star in range(5 - info.average_rating|int) %}
+                                    <span class="star empty">&#9734;</span> <!-- 空心星星 -->
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </li>
+                </a>
+                {% endfor %}
+            </ul>
+            
+            
+        </div>
+
+
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 课程评价. 版权所有.</p>
+            <div class="social-links">
+                <a href="https://github.com/hxli2005">Github</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>
